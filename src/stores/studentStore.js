@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import apiClient from "../api/axios";
 
-export const useStudentStore = defineStore("studentStore", () => {
+export const useStudentStore = defineStore("api/studentStore", () => {
   // 상태
   const students = ref([]);
 
