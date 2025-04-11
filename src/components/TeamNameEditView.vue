@@ -137,7 +137,10 @@ const toggleEditMode = async (index) => {
 // 팀 이름 저장
 const saveTeamName = async (index) => {
   const team = teamNames.value[index];
-  const newName = team.newName.trim();
+  let newName = team.newName.trim();
+
+  // 백슬래시를 원표시로 변환
+  newName = newName.replace(/\\/g, "₩");
 
   if (!newName) {
     alert("팀 이름을 입력해주세요.");
@@ -280,7 +283,10 @@ const confirmSave = async () => {
     // 팀 이름 변경이 있는 학생 정보만 업데이트
     for (const team of changedTeams) {
       const oldTeamName = team.oldName;
-      const newTeamName = team.newName.trim();
+      let newTeamName = team.newName.trim();
+
+      // 백슬래시를 원표시로 변환
+      newTeamName = newTeamName.replace(/\\/g, "₩");
 
       // 해당 팀의 학생들 찾기
       const studentsInTeam = studentStore.students.filter(
