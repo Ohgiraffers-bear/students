@@ -7,6 +7,7 @@
       <router-link to="/teams">팀별 보기</router-link>
       <router-link to="/teams/edit">팀 편집</router-link>
       <router-link to="/teams/name-edit">팀 이름 수정</router-link>
+      <router-link to="/presentation-order">발표 순서 뽑기</router-link>
     </nav>
 
     <router-view />
