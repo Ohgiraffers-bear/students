@@ -1,28 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
 import StudentListView from "../views/StudentListView.vue";
-import NotFoundView from "../views/NotFoundView.vue";
 import TeamView from "../components/TeamView.vue";
 import TeamEditView from "../components/TeamEditView.vue";
 import TeamNameEditView from "../components/TeamNameEditView.vue";
 import PasswordView from "../components/PasswordView.vue";
+import PresentationOrderView from "../components/PresentationOrderView.vue";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: "/",
-      redirect: "/password",
-    },
-    {
-      path: "/password",
-      name: "password",
-      component: PasswordView,
+      redirect: "/students",
     },
     {
       path: "/students",
       name: "students",
       component: StudentListView,
-      meta: { requiresAuth: true },
     },
     {
       path: "/teams",
@@ -43,17 +37,32 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: "/presentation-order",
+      name: "presentation-order",
+      component: PresentationOrderView,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: "/password",
+      name: "password",
+      component: PasswordView,
+    },
+    {
       path: "/:pathMatch(.*)*",
-      name: "not-found",
-      component: NotFoundView,
+      redirect: "/students",
     },
   ],
 });
 
-// 네비게이션 가드 추가
+// 네비게이션 가드
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !localStorage.getItem("isAuthenticated")) {
-    next("/password");
+  if (to.meta.requiresAuth) {
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+    if (!isAuthenticated) {
+      next({ name: "password", query: { redirect: to.fullPath } });
+    } else {
+      next();
+    }
   } else {
     next();
   }
